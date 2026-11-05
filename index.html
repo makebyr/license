@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makebyr - LICENSES</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f5ff',
+                            100: '#e0ebff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#0f172a',
+                            cyan: '#06b6d4',
+                            purple: '#8b5cf6',
+                            accent: '#6366f1'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Fira Code', 'Cascadia Code', 'Courier New', 'monospace'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase App & Database (compat libraries for high stability) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .glow-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-accent selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 border-b border-slate-800 glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-purple flex items-center justify-center text-white shadow-lg shadow-brand-accent/20">
+                    <i class="fa-solid fa-key text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                        Makebyr <span class="text-brand-cyan font-mono text-sm uppercase px-2 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/20">LICENSES</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- User / Admin Actions -->
+            <div class="flex items-center space-x-3">
+                <!-- Username Trigger -->
+                <button id="userBtn" onclick="openUserModal()" class="flex items-center space-x-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-sm px-3.5 py-1.5 rounded-lg border border-slate-700 transition">
+                    <i class="fa-regular fa-user text-brand-cyan"></i>
+                    <span id="currentUsername">User</span>
+                </button>
+
+                <!-- Admin Status / Login -->
+                <button id="adminBtn" onclick="handleAdminAction()" class="flex items-center space-x-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-sm px-3.5 py-1.5 rounded-lg border border-slate-700 transition">
+                    <i class="fa-solid fa-shield-halved text-brand-purple"></i>
+                    <span id="adminBtnText">Admin Login</span>
+                </button>
+
+                <!-- Create KeySoft Button (Admin Only) -->
+                <button id="createKeySoftBtn" onclick="openCreateModal()" class="hidden flex items-center space-x-2 bg-gradient-to-r from-brand-accent to-brand-purple hover:opacity-90 text-white text-sm font-medium px-4 py-1.5 rounded-lg shadow-md transition">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New KeySoft</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <!-- Hero Section & Search -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
+                Makebyr Software Licenses & KeySoft Wiki
+            </h2>
+            <p class="text-slate-400 text-sm sm:text-base mb-6">
+                Explore, integrate, and download officially verified KeySoft licenses and documentation for Makebyr applications.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="relative max-w-xl mx-auto">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400 text-sm"></i>
+                <input type="text" id="searchInput" oninput="filterKeySofts()" placeholder="Search by KeySoft Name, ID, or License Type..." 
+                       class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-accent rounded-xl py-3 pl-11 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-accent transition shadow-inner">
+            </div>
+        </div>
+
+        <!-- KeySoft List Container -->
+        <div id="keysoftContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Loading state -->
+            <div class="col-span-full flex flex-col items-center justify-center py-16 text-slate-500">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-brand-accent"></i>
+                <p class="text-sm">Connecting to Makebyr License Database...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+        <p>© Makebyr Studios - Official Software License Repository</p>
+    </footer>
+
+    <!-- User Profile Modal -->
+    <div id="userModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-700 shadow-2xl">
+            <h3 class="text-lg font-semibold text-white mb-2"><i class="fa-regular fa-user text-brand-cyan mr-2"></i>Set Username</h3>
+            <p class="text-xs text-slate-400 mb-4">Choose a nickname for leaving comments on KeySoft releases.</p>
+            
+            <input type="text" id="usernameInput" maxlength="25" placeholder="Enter username..." 
+                   class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white mb-4 focus:outline-none focus:border-brand-accent">
+            
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeUserModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm">Cancel</button>
+                <button onclick="saveUsername()" class="px-4 py-2 rounded-lg bg-brand-accent hover:bg-brand-600 text-white text-sm font-medium">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-700 shadow-2xl">
+            <h3 class="text-lg font-semibold text-white mb-2"><i class="fa-solid fa-lock text-brand-purple mr-2"></i>Admin Authentication</h3>
+            <p class="text-xs text-slate-400 mb-4">Enter the administrative password to manage KeySoft licenses.</p>
+            
+            <input type="password" id="adminPasswordInput" placeholder="Enter admin password..." 
+                   class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white mb-2 focus:outline-none focus:border-brand-purple">
+            <p id="adminError" class="text-xs text-red-400 hidden mb-4"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Invalid admin password.</p>
+            
+            <div class="flex justify-end space-x-2 mt-4">
+                <button onclick="closeAdminModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm">Cancel</button>
+                <button onclick="verifyAdminPassword()" class="px-4 py-2 rounded-lg bg-brand-purple hover:bg-purple-600 text-white text-sm font-medium">Authenticate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- KeySoft Create/Edit Modal -->
+    <div id="editorModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="glass-panel max-w-3xl w-full rounded-2xl p-6 border border-slate-700 shadow-2xl my-8 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 id="editorModalTitle" class="text-xl font-bold text-white flex items-center">
+                    <i class="fa-solid fa-code text-brand-cyan mr-2"></i>Create New KeySoft
+                </h3>
+                <button onclick="closeEditorModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <form id="keySoftForm" onsubmit="saveKeySoft(event)" class="space-y-4 overflow-y-auto pr-2 scrollbar-thin">
+                <input type="hidden" id="editKeyId">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Title</label>
+                        <input type="text" id="formTitle" required placeholder="e.g., Makebyr Engine Key" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">KeySoft ID / Key</label>
+                        <input type="text" id="formKeyId" required placeholder="e.g., MKB-8921-X90" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm font-mono text-brand-cyan focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">License Type</label>
+                        <select id="formLicenseType" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                            <option value="MIT License">MIT License</option>
+                            <option value="Commercial License">Commercial License</option>
+                            <option value="Open Source">Open Source</option>
+                            <option value="Freeware">Freeware</option>
+                            <option value="Pro KeySoft">Pro KeySoft</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Pricing Model</label>
+                        <select id="formPricing" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                            <option value="Free">Free</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Freemium">Freemium</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Latest Version</label>
+                        <input type="text" id="formVersion" required placeholder="e.g., v1.2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Download URL</label>
+                        <input type="url" id="formDownloadLink" placeholder="https://example.com/download.zip" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Character Limits / Spec</label>
+                        <input type="text" id="formLimits" placeholder="e.g., Max 1024 chars, 5 activations" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Rules & Conditions</label>
+                    <input type="text" id="formRules" placeholder="e.g., No redistribution without authorization." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">KeySoft Wiki / README Content</label>
+                    <textarea id="formWiki" rows="6" placeholder="Write documentation, usage instructions, specs..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-white font-mono focus:outline-none focus:border-brand-accent scrollbar-thin"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeEditorModal()" class="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-brand-cyan to-brand-accent hover:opacity-90 text-white font-medium text-sm">Publish KeySoft</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detailed KeySoft Viewer & Wiki Modal -->
+    <div id="viewModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="glass-panel max-w-4xl w-full rounded-2xl p-6 border border-slate-700 shadow-2xl my-6 max-h-[92vh] flex flex-col">
+            
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-4 gap-3">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span id="viewLicenseType" class="text-xs uppercase font-mono px-2 py-0.5 rounded bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">MIT License</span>
+                        <span id="viewPricing" class="text-xs uppercase font-mono px-2 py-0.5 rounded bg-green-500/20 text-green-400 border border-green-500/30">Free</span>
+                        <span id="viewVersion" class="text-xs font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">v1.0</span>
+                    </div>
+                    <h3 id="viewTitle" class="text-2xl font-bold text-white mt-1">KeySoft Title</h3>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <div id="adminViewActions" class="hidden flex items-center space-x-2">
+                        <button onclick="editCurrentKeySoft()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs border border-slate-700"><i class="fa-solid fa-pen-to-square mr-1"></i> Edit</button>
+                        <button onclick="deleteCurrentKeySoft()" class="px-3 py-1.5 rounded-lg bg-red-900/40 hover:bg-red-800/60 text-red-300 text-xs border border-red-800"><i class="fa-solid fa-trash mr-1"></i> Delete</button>
+                    </div>
+                    <button onclick="closeViewModal()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="overflow-y-auto pr-2 scrollbar-thin space-y-6 flex-grow">
+                
+                <!-- KeySoft Identification Details -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-800">
+                        <p class="text-xs text-slate-400 uppercase font-mono mb-1">KeySoft ID</p>
+                        <p id="viewKeyId" class="text-sm font-mono font-semibold text-brand-cyan select-all">KEY-000000</p>
+                    </div>
+                    <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-800">
+                        <p class="text-xs text-slate-400 uppercase font-mono mb-1">Limits & Specs</p>
+                        <p id="viewLimits" class="text-sm text-slate-200">Standard usage</p>
+                    </div>
+                    <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-800">
+                        <p class="text-xs text-slate-400 uppercase font-mono mb-1">Rules & Terms</p>
+                        <p id="viewRules" class="text-sm text-slate-200">Default license terms apply.</p>
+                    </div>
+                </div>
+
+                <!-- Integration Code Snippet Box -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-sm font-semibold uppercase text-slate-300 font-mono"><i class="fa-solid fa-terminal text-brand-purple mr-1.5"></i>Software Integration Snippet</h4>
+                        <button onclick="copySnippet()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded border border-slate-700 flex items-center space-x-1">
+                            <i class="fa-regular fa-copy"></i>
+                            <span id="copyBtnText">Copy Code</span>
+                        </button>
+                    </div>
+                    <div class="bg-slate-950 rounded-xl p-4 border border-slate-800 font-mono text-xs overflow-x-auto text-emerald-400 relative">
+                        <pre id="snippetCode"></pre>
+                    </div>
+                </div>
+
+                <!-- README / Wiki Section -->
+                <div>
+                    <h4 class="text-sm font-semibold uppercase text-slate-300 font-mono mb-2"><i class="fa-solid fa-book text-brand-cyan mr-1.5"></i>Wiki & Documentation</h4>
+                    <div id="viewWiki" class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 text-sm text-slate-300 whitespace-pre-wrap leading-relaxed font-sans">
+                        No documentation provided.
+                    </div>
+                </div>
+
+                <!-- Download Section -->
+                <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h4 class="text-sm font-semibold text-white mb-1"><i class="fa-solid fa-download text-brand-cyan mr-1.5"></i>Download KeySoft Package</h4>
+                        <p class="text-xs text-slate-400">Get the latest executable or integration key package.</p>
+                    </div>
+                    <div class="flex items-center space-x-3 w-full sm:w-auto">
+                        <a id="viewDownloadBtn" href="#" target="_blank" class="w-full sm:w-auto text-center bg-gradient-to-r from-brand-accent to-brand-purple hover:opacity-90 text-white font-medium text-sm px-5 py-2.5 rounded-lg shadow-md transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <span>Download KeySoft</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Comments & Feedback Section -->
+                <div class="border-t border-slate-800 pt-6">
+                    <h4 class="text-sm font-semibold uppercase text-slate-300 font-mono mb-4"><i class="fa-regular fa-comments text-brand-purple mr-1.5"></i>Community Comments</h4>
+                    
+                    <!-- Add Comment -->
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="commentInput" placeholder="Write a comment..." class="flex-grow bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-brand-accent">
+                        <button onclick="postComment()" class="bg-slate-800 hover:bg-slate-700 text-brand-cyan px-4 py-2.5 rounded-lg text-sm font-medium border border-slate-700">Post</button>
+                    </div>
+
+                    <!-- Comment List -->
+                    <div id="commentsList" class="space-y-3">
+                        <p class="text-xs text-slate-500 italic">No comments yet. Be the first to leave a thought!</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Firebase Configuration & Initialization ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKvNViTMiARSW5sa5BoIZmF9cm7XL9bQY",
+            authDomain: "raty-studios-servers.firebaseapp.com",
+            databaseURL: "https://raty-studios-servers-default-rtdb.firebaseio.com",
+            projectId: "raty-studios-servers",
+            storageBucket: "raty-studios-servers.appspot.com",
+            messagingSenderId: "1033991074708",
+            appId: "1:1033991074708:web:b39be9e157b357cd94d581"
+        };
+
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // --- 2. Global State ---
+        let currentUsername = localStorage.getItem('mkb_username') || 'GuestUser_' + Math.floor(1000 + Math.random() * 9000);
+        let isAdmin = localStorage.getItem('mkb_is_admin') === 'true';
+        let keySoftData = {};
+        let activeKeyId = null;
+
+        // --- 3. DOM Ready Initialization ---
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUserUI();
+            updateAdminUI();
+            listenToKeySofts();
+        });
+
+        // --- 4. User Profile Logic ---
+        function updateUserUI() {
+            document.getElementById('currentUsername').innerText = currentUsername;
+            document.getElementById('usernameInput').value = currentUsername;
+        }
+
+        function openUserModal() {
+            document.getElementById('userModal').classList.remove('hidden');
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.add('hidden');
+        }
+
+        function saveUsername() {
+            const input = document.getElementById('usernameInput').value.trim();
+            if (input) {
+                currentUsername = input;
+                localStorage.setItem('mkb_username', currentUsername);
+                updateUserUI();
+                closeUserModal();
+            }
+        }
+
+        // --- 5. Admin Auth Logic ---
+        function updateAdminUI() {
+            const adminBtnText = document.getElementById('adminBtnText');
+            const createBtn = document.getElementById('createKeySoftBtn');
+            const adminViewActions = document.getElementById('adminViewActions');
+
+            if (isAdmin) {
+                adminBtnText.innerText = "Admin Logged In";
+                createBtn.classList.remove('hidden');
+                if (adminViewActions) adminViewActions.classList.remove('hidden');
+            } else {
+                adminBtnText.innerText = "Admin Login";
+                createBtn.classList.add('hidden');
+                if (adminViewActions) adminViewActions.classList.add('hidden');
+            }
+        }
+
+        function handleAdminAction() {
+            if (isAdmin) {
+                if (confirm("Logout from Admin mode?")) {
+                    isAdmin = false;
+                    localStorage.removeItem('mkb_is_admin');
+                    updateAdminUI();
+                }
+            } else {
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminError').classList.add('hidden');
+                document.getElementById('adminModal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function verifyAdminPassword() {
+            const pwd = document.getElementById('adminPasswordInput').value;
+            if (pwd === "makebyr567") {
+                isAdmin = true;
+                localStorage.setItem('mkb_is_admin', 'true');
+                updateAdminUI();
+                closeAdminModal();
+            } else {
+                document.getElementById('adminError').classList.remove('hidden');
+            }
+        }
+
+        // --- 6. Firebase Realtime Sync ---
+        function listenToKeySofts() {
+            const ref = db.ref('keysofts');
+            ref.on('value', (snapshot) => {
+                keySoftData = snapshot.val() || {};
+                renderKeySofts();
+            }, (error) => {
+                console.error("Database sync error:", error);
+                document.getElementById('keysoftContainer').innerHTML = `
+                    <div class="col-span-full text-center py-12 text-red-400">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl mb-2"></i>
+                        <p class="text-sm">Failed to connect to database. Please refresh or try again later.</p>
+                    </div>
+                `;
+            });
+        }
+
+        // --- 7. KeySoft Rendering & Filtering ---
+        function renderKeySofts(filterText = '') {
+            const container = document.getElementById('keysoftContainer');
+            container.innerHTML = '';
+
+            const keys = Object.keys(keySoftData);
+            const filteredKeys = keys.filter(id => {
+                const item = keySoftData[id];
+                const query = filterText.toLowerCase();
+                return (
+                    (item.title && item.title.toLowerCase().includes(query)) ||
+                    (item.keyId && item.keyId.toLowerCase().includes(query)) ||
+                    (item.licenseType && item.licenseType.toLowerCase().includes(query))
+                );
+            });
+
+            if (filteredKeys.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16 text-slate-500 bg-slate-900/40 rounded-2xl border border-slate-800">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3"></i>
+                        <p class="text-base font-medium">No KeySoft licenses found.</p>
+                        <p class="text-xs text-slate-600 mt-1">${isAdmin ? 'Click "New KeySoft" above to create one.' : 'Check back later for new releases.'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredKeys.forEach(id => {
+                const item = keySoftData[id];
+                const card = document.createElement('div');
+                card.className = "glass-panel rounded-2xl p-5 glow-card flex flex-col justify-between border border-slate-800 hover:border-slate-700 transition";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs uppercase font-mono px-2 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">${escapeHtml(item.licenseType || 'Standard')}</span>
+                            <span class="text-xs font-mono font-medium px-2 py-0.5 rounded ${item.pricing === 'Free' ? 'bg-green-500/15 text-green-400 border border-green-500/30' : 'bg-purple-500/15 text-purple-400 border border-purple-500/30'}">${escapeHtml(item.pricing || 'Free')}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">${escapeHtml(item.title || 'Untitled KeySoft')}</h3>
+                        <p class="text-xs font-mono text-slate-400 mb-3"><i class="fa-solid fa-fingerprint text-brand-accent mr-1"></i>${escapeHtml(item.keyId || id)}</p>
+                        <p class="text-xs text-slate-400 line-clamp-2 mb-4">${escapeHtml(item.wiki || 'No detailed documentation available.')}</p>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                        <span class="text-xs font-mono text-slate-500">${escapeHtml(item.version || 'v1.0')}</span>
+                        <button onclick="openViewModal('${id}')" class="text-xs font-medium bg-slate-800 hover:bg-slate-700 text-brand-cyan px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1">
+                            <span>View Wiki</span>
+                            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterKeySofts() {
+            const searchVal = document.getElementById('searchInput').value;
+            renderKeySofts(searchVal);
+        }
+
+        // --- 8. Modal Handlers (Create / Edit) ---
+        function openCreateModal() {
+            document.getElementById('editorModalTitle').innerHTML = `<i class="fa-solid fa-code text-brand-cyan mr-2"></i>Create New KeySoft`;
+            document.getElementById('editKeyId').value = '';
+            document.getElementById('keySoftForm').reset();
+            document.getElementById('editorModal').classList.remove('hidden');
+        }
+
+        function closeEditorModal() {
+            document.getElementById('editorModal').classList.add('hidden');
+        }
+
+        function saveKeySoft(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+
+            const editId = document.getElementById('editKeyId').value;
+            const keyId = document.getElementById('formKeyId').value.trim();
+
+            const payload = {
+                title: document.getElementById('formTitle').value.trim(),
+                keyId: keyId,
+                licenseType: document.getElementById('formLicenseType').value,
+                pricing: document.getElementById('formPricing').value,
+                version: document.getElementById('formVersion').value.trim(),
+                downloadLink: document.getElementById('formDownloadLink').value.trim(),
+                limits: document.getElementById('formLimits').value.trim(),
+                rules: document.getElementById('formRules').value.trim(),
+                wiki: document.getElementById('formWiki').value.trim(),
+                updatedAt: Date.now()
+            };
+
+            const targetId = editId || keyId.replace(/[^a-zA-Z0-9_-]/g, '_') || db.ref('keysofts').push().key;
+
+            db.ref('keysofts/' + targetId).update(payload)
+                .then(() => {
+                    closeEditorModal();
+                    if (activeKeyId === targetId) {
+                        openViewModal(targetId);
+                    }
+                })
+                .catch((err) => {
+                    alert("Error saving KeySoft: " + err.message);
+                });
+        }
+
+        // --- 9. Detailed KeySoft View & Interactions ---
+        function openViewModal(id) {
+            activeKeyId = id;
+            const item = keySoftData[id];
+            if (!item) return;
+
+            document.getElementById('viewTitle').innerText = item.title || 'Untitled KeySoft';
+            document.getElementById('viewLicenseType').innerText = item.licenseType || 'License';
+            document.getElementById('viewPricing').innerText = item.pricing || 'Free';
+            document.getElementById('viewVersion').innerText = item.version || 'v1.0';
+            document.getElementById('viewKeyId').innerText = item.keyId || id;
+            document.getElementById('viewLimits').innerText = item.limits || 'No specific character/limit constraints.';
+            document.getElementById('viewRules').innerText = item.rules || 'Standard Makebyr software licensing rules apply.';
+            document.getElementById('viewWiki').innerText = item.wiki || 'No wiki or README documentation provided.';
+
+            // Download Button Setup
+            const downloadBtn = document.getElementById('viewDownloadBtn');
+            if (item.downloadLink) {
+                downloadBtn.href = item.downloadLink;
+                downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                downloadBtn.href = '#';
+                downloadBtn.classList.add('opacity-50', 'pointer-events-none');
+            }
+
+            // Generate Code Integration Snippet
+            const codeSnippet = 
+`// Makebyr KeySoft Integration
+const makebyrKeySoft = {
+  apiKey: "${item.keyId || id}",
+  licenseType: "${item.licenseType || 'MIT'}",
+  version: "${item.version || 'v1.0'}",
+  status: "VERIFIED"
+};
+
+Makebyr.init(makebyrKeySoft);`;
+            document.getElementById('snippetCode').innerText = codeSnippet;
+
+            // Render Comments
+            renderComments(item.comments || {});
+
+            updateAdminUI();
+            document.getElementById('viewModal').classList.remove('hidden');
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewModal').classList.add('hidden');
+            activeKeyId = null;
+        }
+
+        function copySnippet() {
+            const codeText = document.getElementById('snippetCode').innerText;
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = codeText;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            const btnText = document.getElementById('copyBtnText');
+            btnText.innerText = "Copied!";
+            setTimeout(() => { btnText.innerText = "Copy Code"; }, 2000);
+        }
+
+        function editCurrentKeySoft() {
+            if (!activeKeyId || !isAdmin) return;
+            const item = keySoftData[activeKeyId];
+
+            document.getElementById('editorModalTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-purple mr-2"></i>Edit KeySoft`;
+            document.getElementById('editKeyId').value = activeKeyId;
+            document.getElementById('formTitle').value = item.title || '';
+            document.getElementById('formKeyId').value = item.keyId || activeKeyId;
+            document.getElementById('formLicenseType').value = item.licenseType || 'MIT License';
+            document.getElementById('formPricing').value = item.pricing || 'Free';
+            document.getElementById('formVersion').value = item.version || 'v1.0';
+            document.getElementById('formDownloadLink').value = item.downloadLink || '';
+            document.getElementById('formLimits').value = item.limits || '';
+            document.getElementById('formRules').value = item.rules || '';
+            document.getElementById('formWiki').value = item.wiki || '';
+
+            closeViewModal();
+            document.getElementById('editorModal').classList.remove('hidden');
+        }
+
+        function deleteCurrentKeySoft() {
+            if (!activeKeyId || !isAdmin) return;
+            if (confirm("Are you sure you want to delete this KeySoft release?")) {
+                db.ref('keysofts/' + activeKeyId).remove()
+                    .then(() => {
+                        closeViewModal();
+                    });
+            }
+        }
+
+        // --- 10. Comments Handling ---
+        function renderComments(commentsObj) {
+            const listContainer = document.getElementById('commentsList');
+            listContainer.innerHTML = '';
+
+            const keys = Object.keys(commentsObj);
+            if (keys.length === 0) {
+                listContainer.innerHTML = `<p class="text-xs text-slate-500 italic">No comments yet. Be the first to leave a thought!</p>`;
+                return;
+            }
+
+            keys.forEach(cid => {
+                const c = commentsObj[cid];
+                const dateStr = c.timestamp ? new Date(c.timestamp).toLocaleDateString() : '';
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "bg-slate-900/60 rounded-lg p-3 border border-slate-800/80 text-xs";
+                itemDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-semibold text-brand-cyan"><i class="fa-regular fa-user mr-1"></i>${escapeHtml(c.user || 'Anonymous')}</span>
+                        <span class="text-[10px] text-slate-500">${dateStr}</span>
+                    </div>
+                    <p class="text-slate-300 leading-normal">${escapeHtml(c.text || '')}</p>
+                `;
+                listContainer.appendChild(itemDiv);
+            });
+        }
+
+        function postComment() {
+            if (!activeKeyId) return;
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const commentData = {
+                user: currentUsername,
+                text: text,
+                timestamp: Date.now()
+            };
+
+            db.ref(`keysofts/${activeKeyId}/comments`).push(commentData)
+                .then(() => {
+                    input.value = '';
+                });
+        }
+
+        // Helper Utility to Escape HTML
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
